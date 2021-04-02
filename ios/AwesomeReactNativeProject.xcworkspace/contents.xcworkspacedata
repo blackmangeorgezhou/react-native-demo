@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../src">
+   </FileRef>
+   <FileRef
+      location = "group:../__tests__">
+   </FileRef>
+   <FileRef
+      location = "group:../android">
+   </FileRef>
+   <FileRef
+      location = "group:../app.json">
+   </FileRef>
+   <FileRef
+      location = "group:../babel.config.js">
+   </FileRef>
+   <FileRef
+      location = "group:../index.js">
+   </FileRef>
+   <FileRef
+      location = "group:../metro.config.js">
+   </FileRef>
+   <FileRef
+      location = "group:../node_modules">
+   </FileRef>
+   <FileRef
+      location = "group:../package.json">
+   </FileRef>
+   <FileRef
+      location = "group:../yarn.lock">
+   </FileRef>
+   <FileRef
+      location = "group:../App.js">
+   </FileRef>
+   <FileRef
+      location = "group:AwesomeReactNativeProject.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>

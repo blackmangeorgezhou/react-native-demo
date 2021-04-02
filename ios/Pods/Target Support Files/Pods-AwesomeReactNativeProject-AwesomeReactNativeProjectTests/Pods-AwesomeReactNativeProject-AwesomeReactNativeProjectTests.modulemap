@@ -1,0 +1,6 @@
+module Pods_AwesomeReactNativeProject_AwesomeReactNativeProjectTests {
+  umbrella header "Pods-AwesomeReactNativeProject-AwesomeReactNativeProjectTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
