@@ -5,10 +5,10 @@ import {
     View,
     SafeAreaView,
     StyleSheet,
-} from 'react-native'
+} from 'react-native';
 
-import commonStyl from '../assets/style/common'
-import SectionList from '../components/section-list'
+import commonStyl from '../assets/style/common';
+import SectionList from '../components/section-list';
 
 const styles = StyleSheet.create({
     ...commonStyl,
@@ -40,11 +40,11 @@ const headerComponent = () => {
     return (
         <View>
             <View style={styles.title}>
-                <Image style={styles.tinyLogo} source={require('../assets/images/logo.png')}></Image>
-                <Text style={styles.titleText}>Vant</Text>
+                <Image style={styles.tinyLogo} source={require('../assets/images/ea-logo.png')}></Image>
+                <Text style={styles.titleText}>EA Player</Text>
             </View>
             <View>
-                <Text style={styles.description}>轻量、可靠的移动端 Vue 组件库</Text>
+                <Text style={styles.description}>Pattern Library 组件库 - NDS</Text>
             </View>
         </View>
     );
