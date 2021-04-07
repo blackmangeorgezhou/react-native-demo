@@ -78,7 +78,8 @@ function App() {
               <Drawer.Screen
                 name={title}
                 component={component}
-                options={options}>
+                options={options}
+                key={title + index}>
               </Drawer.Screen>
             );
           })
