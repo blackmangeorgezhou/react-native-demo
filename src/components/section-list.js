@@ -3,7 +3,6 @@ import {
     Text,
     View,
     SectionList,
-    SafeAreaView,
     TouchableWithoutFeedback,
     StyleSheet
 } from 'react-native';
@@ -84,15 +83,13 @@ export default function EASectionList({ headerComponent, data, onDetail }) {
     };
 
     return (
-        <SafeAreaView>
-            <SectionList
-                ListHeaderComponent={headerComponent}
-                sections={data}
-                keyExtractor={(item,index) => item.name + index}
-                renderItem={({item}) => <Item data={item} onPress={goNextPage}></Item>}
-                renderSectionHeader={({section}) => <Header title={section.title}></Header>}
-            >
-            </SectionList>
-        </SafeAreaView>
+        <SectionList
+            ListHeaderComponent={headerComponent}
+            sections={data}
+            keyExtractor={(item,index) => item.name + index}
+            renderItem={({item}) => <Item data={item} onPress={goNextPage}></Item>}
+            renderSectionHeader={({section}) => <Header title={section.title}></Header>}
+        >
+        </SectionList>
     );
 };

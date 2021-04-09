@@ -119,13 +119,11 @@ export default function Home({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
-            <View style={styles.container}>
-                <SectionList
-                    data={data}
-                    headerComponent={headerComponent}
-                    onDetail={goDetail}></SectionList>
-            </View>            
-        </SafeAreaView>
+        <View style={styles.container}>
+            <SectionList
+                data={data}
+                headerComponent={headerComponent}
+                onDetail={goDetail}></SectionList>
+        </View>            
     );
 };
