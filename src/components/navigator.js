@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -21,9 +23,14 @@ const styles = StyleSheet.create({
         height: 28,
         width: 28,
         marginLeft: 12
-      }
+    },
+    backIcon: {
+        height: 24,
+        width: 24,
+        marginLeft: 12
+    }
 })
-const HeaderLeft = ({navigationProps}) => {
+const NavHeaderLeft = ({navigationProps}) => {
     const toggleDrawer = () => {
         navigationProps.toggleDrawer();
     };
@@ -36,10 +43,16 @@ const HeaderLeft = ({navigationProps}) => {
         </View>
     );
 };
-const Default = () => {
+const DrawerHeaderLeft = ({navigationProps}) => {
+    const toggleDrawer = () => {
+        navigationProps.goBack();
+    };
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.requiredMsg}>[Component] is required !</Text>
+        <View>
+            <TouchableOpacity onPress={toggleDrawer}>
+                <Image style={styles.backIcon} source={require('../assets/images/back.png')}></Image>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -49,49 +62,43 @@ const DrawerNav = ({data, theme, homeTitle, homeComponent}) => {
         <NavigationContainer theme={theme || DefaultTheme}>
             <Drawer.Navigator>
                 <Drawer.Screen name={homeTitle} component={homeComponent}></Drawer.Screen>
-                    {
-                        data.map(({title, component, options}, index) => {
-                            return (
+                {
+                    data.map(({title, component, options}, index) => {
+                        return (
                             <Drawer.Screen
                                 name={title}
                                 component={component}
-                                options={options}
+                                options={({navigation}) => ({
+                                    ...options,
+                                    headerLeft: () => <DrawerHeaderLeft navigationProps={navigation}></DrawerHeaderLeft>
+                                })}
                                 key={title + index}>
                             </Drawer.Screen>
-                            );
-                        })
-                    }
+                        );
+                    })
+                }
             </Drawer.Navigator>
         </NavigationContainer>
     );
 };
 
 const Nav = ({data}) => {
-    let navigation;
-
-    // Navigations
-    if (data) {
-        navigation = (
-            <Stack.Navigator initialRouteName={data[0].name}>
-                {
-                    data.map(({title, component, options}, index) => {
-                        const name = title || 'Title';
-                        const componentName = component || Default;
-                        const styles = options || {};
-                        return (
-                            <Stack.Screen
-                                name={name}
-                                component={componentName}
-                                options={styles}
-                                key={title + index}>
-                            </Stack.Screen>
-                        );
-                    })
-                }
-            </Stack.Navigator>
-        );
-    }
-    return navigation;
+    return (
+        <Stack.Navigator initialRouteName={data[0].name}>
+            {
+                data.map(({title, component, options}, index) => {
+                    return (
+                        <Stack.Screen
+                            name={title}
+                            component={component}
+                            options={options}
+                            key={title + index}>
+                        </Stack.Screen>
+                    );
+                })
+            }
+        </Stack.Navigator>
+    );
 };
 
 export default EANav = ({navList, drawerList, theme}) => {
@@ -105,7 +112,7 @@ export default EANav = ({navList, drawerList, theme}) => {
 
     let theFirstNav = navList[0];
     const Home = ({navigation}) => {
-        theFirstNav.options.headerLeft = () => <HeaderLeft navigationProps={ navigation }></HeaderLeft>;
+        theFirstNav.options.headerLeft = () => <NavHeaderLeft navigationProps={ navigation }></NavHeaderLeft>;
         return <Nav data={navList}></Nav>
     };
 

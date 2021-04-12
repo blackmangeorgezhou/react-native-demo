@@ -19,10 +19,7 @@ const navs = [
     {
         title: 'Home',
         component: HomePage,
-        options: {
-            ...options,
-            headerLeft: () => <HeaderLeft navigationProps={navigation}></HeaderLeft>,
-        }
+        options
     },
     {
         title: 'Button',
@@ -34,6 +31,10 @@ const drawerNavs = [
     {
         title: 'Account',
         component: UserProfile,
+        options: {
+            ...options,
+            headerShown: true
+        }
     }
 ];
 

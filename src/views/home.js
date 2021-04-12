@@ -1,9 +1,9 @@
 import React from 'react';
 import {
+    Alert,
     Image,
     Text,
     View,
-    SafeAreaView,
     StyleSheet,
 } from 'react-native';
 
@@ -112,7 +112,7 @@ export default function Home({ navigation }) {
 
     const goDetail = (detail) => {
         if (!detail || !detail.link) {
-            alert('[link] is required !');
+            Alert.alert('error', '[link] is required !');
             return;
         }
         navigation.navigate(detail.link);
