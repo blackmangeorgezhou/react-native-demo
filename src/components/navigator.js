@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerItemList, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
@@ -19,6 +18,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '500'
     },
+    eaLogo: {
+        height: 108,
+        width: 108
+    },
     menuIcon: {
         height: 28,
         width: 28,
@@ -28,17 +31,22 @@ const styles = StyleSheet.create({
         height: 24,
         width: 24,
         marginLeft: 12
+    },
+    topArea: {
+        alignItems: 'center',
+        backgroundColor: 'rgb(251,45,55)',
+        justifyContent: 'center',
     }
 })
-const NavHeaderLeft = ({navigationProps}) => {
+const NavHeaderLeft = ({onPress, source}) => {
     const toggleDrawer = () => {
-        navigationProps.toggleDrawer();
+        onPress();
     };
 
     return (
         <View>
             <TouchableOpacity onPress={toggleDrawer}>
-                <Image style={styles.menuIcon} source={require('../assets/images/menu.png')}></Image>
+                <Image style={styles.menuIcon} source={source}></Image>
             </TouchableOpacity>
         </View>
     );
@@ -56,11 +64,21 @@ const DrawerHeaderLeft = ({navigationProps}) => {
         </View>
     );
 };
+const CustomerDrawerContent = (props) => {
+    return (
+        <DrawerContentScrollView {...props}>
+            <View style={styles.topArea}>
+                <Image style={styles.eaLogo} source={require('../assets/images/ea.png')}></Image>
+            </View>
+            <DrawerItemList {...props}></DrawerItemList>
+        </DrawerContentScrollView>
+    );
+};
 
 const DrawerNav = ({data, theme, homeTitle, homeComponent}) => {
     return (
         <NavigationContainer theme={theme || DefaultTheme}>
-            <Drawer.Navigator>
+            <Drawer.Navigator drawerContent={props => <CustomerDrawerContent {...props}/>}>
                 <Drawer.Screen name={homeTitle} component={homeComponent}></Drawer.Screen>
                 {
                     data.map(({title, component, options}, index) => {
@@ -110,15 +128,27 @@ export default EANav = ({navList, drawerList, theme}) => {
         );
     }
 
-    let theFirstNav = navList[0];
     const Home = ({navigation}) => {
-        theFirstNav.options.headerLeft = () => <NavHeaderLeft navigationProps={ navigation }></NavHeaderLeft>;
+        const toggleDrawer = () => {
+            navigation.toggleDrawer();
+        };
+        const goBack = () => {
+            navigation.goBack();
+        };
+        navList.forEach((nav, index) => {
+            console.log(index)
+            if (index === 0) {
+                nav.options.headerLeft = () =>  <NavHeaderLeft onPress={toggleDrawer} source={require('../assets/images/menu.png')}></NavHeaderLeft>;
+            } else {
+                nav.options.headerLeft = () => <NavHeaderLeft onPress={goBack} source={require('../assets/images/back.png')}></NavHeaderLeft>;
+            }
+        });
         return <Nav data={navList}></Nav>
     };
 
     return <DrawerNav
         data={drawerList}
         theme={theme}
-        homeTitle={theFirstNav.title}
+        homeTitle={navList[0].title}
         homeComponent={Home}></DrawerNav>
 };

@@ -63,7 +63,6 @@ import { EaElement } from '../ea-element/ea-element.js';
 import '../ea-icons/ea-icons.js';
 
 const $documentContainer = document.createElement('template');
-const { getSlottedChildren } = window.nds;
 
 /* eslint-disable max-len */
 $documentContainer.innerHTML = `<dom-module id="ea-tabs">
@@ -133,130 +132,14 @@ $documentContainer.innerHTML = `<dom-module id="ea-tabs">
                 width: 100%;
             }
 
+            #stage:focus {
+                outline: none;
+            }
+
             @media (max-width: 767px) {
                 :host([scrollable]) #stage {
                     margin: 0 auto;
                     max-width: calc((var(--ea-column-mobile-with-rail) * 6) + (var(--ea-gutter-mobile) * 5));
-                    overflow: unset;
-                }
-            }
-            
-            /* drop down container */
-            .tabs_dropdown-selected {
-                display: none;
-            }
-
-            @media only screen and (max-width: 767px) {
-                /**
-                * Selected
-                */
-                :host([behavior-in-s-and-xs="collapse"]) .tabs_dropdown-selected {
-                    align-items: center;
-                    cursor: pointer;
-                    display: flex;
-                    height: 48px;
-                    justify-content: space-between;
-                    padding-left: 24px;
-                    padding-right: 24px;
-                    position: relative;
-                    text-transform: capitalize;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][theme="dark"]) .tabs_dropdown-selected {
-                    background-color: #fff;
-                    color: var(--ea-dark-color);
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][theme="light"]) .tabs_dropdown-selected {
-                    color: rgb(var(--ea-light-color-rgb));
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][theme="custom"]) .tabs_dropdown-selected {
-                    color: var(--ea-theme-tabs-selected-type);
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .eapl-tabs__wrapper,
-                :host([behavior-in-s-and-xs="collapse"][open]) #stage {
-                    overflow: unset;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"]) .tabs_dropdown-items,
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown-selected {
-                    display: none;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown-items {
-                    display: block;
-                }
-
-                :host(:not([behavior-in-s-and-xs="collapse"])) .tabs_links {
-                    display: flex;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_links {
-                    max-height: 215px;
-                    overflow-x: hidden;
-                    padding: 0 24px;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown {
-                    position: relative;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown-items::before {
-                    background-color: #fff;
-                    border: solid 2px #c2c2c2;
-                    border-radius: 3px;
-                    bottom: 0;
-                    box-shadow: 0 14px 20px 0 rgb(0 0 0 / 16%);
-                    content: "";
-                    left: 0;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    transition: border-width 0.1s, bottom 0.1s, left 0.1s, right 0.1s, top 0.1s;
-                }
-
-                :host(:hover[behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown-items::before {
-                    border-width: 2px;
-                    bottom: -3px;
-                    left: -3px;
-                    right: -3px;
-                    top: -3px;
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open][theme="light"]) .tabs_dropdown-items::before {
-                    background-color: #585858;
-                    border: solid 2px rgba(255, 255, 255, 0.1);
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open][theme="custom"]) .tabs_dropdown-items::before {
-                    background-color: var(--ea-theme-tabs-background-color);
-                }
-
-                :host([behavior-in-s-and-xs="collapse"][open]) .tabs_dropdown-items {
-                    display: block;
-                    position: relative;
-                    z-index: var(--ea-sub-nav-layer);
-                }
-
-                /**
-                * Chevron
-                */
-                .tabs_dropdown-chevron {
-                    fill: var(--ea-dark-color);
-                    height: 16px;
-                    width: 16px;
-                }
-
-                .tabs_dropdown-chevron iron-icon {
-                    fill: #585858;
-                    height: 17px;
-                    margin-right: 9px;
-                }
-
-                .tabs_dropdown-selected-text {
-                    padding-right: 16px;
                 }
             }
 
@@ -264,10 +147,6 @@ $documentContainer.innerHTML = `<dom-module id="ea-tabs">
                 #stage {
                     padding-left: 60px;
                     padding-right: 60px;
-                }
-
-                .tabs_links {
-                    display: flex;
                 }
             }
 
@@ -486,11 +365,6 @@ $documentContainer.innerHTML = `<dom-module id="ea-tabs">
                 }
             }
 
-            .tabs__dropdown-chevron {
-                height: 16px;
-                width: 16px;
-            }
-
             .ea-tabs__arrow {
                 background: transparent;
                 border: 0;
@@ -627,18 +501,7 @@ $documentContainer.innerHTML = `<dom-module id="ea-tabs">
             <div id="stage">
                 <div id="container">
                     <div id="tabs">
-                        <div class="tabs_dropdown">
-                            <div class="tabs_dropdown-selected" on-click="_toggleDropdown">
-                                <span class="tabs_dropdown-selected-text">[[ presentTabvalue ]]</span>
-                                <iron-icon icon="ea-action-16:chevron" class="tabs__dropdown-chevron"></iron-icon>
-                            </div>
-
-                            <div class="tabs_dropdown-items">
-                                <div class="tabs_links b2">
-                                    <slot behavior-in-s-and-xs="behavior-in-s-and-xs" id="content"></slot>
-                                </div>
-                            </div>
-                        </div>
+                        <slot id="content"></slot>
                     </div>
                 </div>
             </div>
@@ -831,22 +694,6 @@ class EaTabs extends mixinBehaviors([IronMenubarBehavior, IronResizableBehavior]
             _debounceDelay: {
                 type: Number,
                 value: 20
-            },
-
-            /**
-             * The value against which links match to determine their current state
-            */
-            presentTabvalue: {
-                type: String
-            },
-
-            /**
-             * Whether the select is open.
-            */
-            open: {
-                type: Boolean,
-                value: false,
-                reflectToAttribute: true
             }
         };
     }
@@ -857,10 +704,7 @@ class EaTabs extends mixinBehaviors([IronMenubarBehavior, IronResizableBehavior]
      * @param {Object} event The event Object.
      */
     _onPaddleTap(event) {
-        if (window.innerWidth < 768) {
-            return;
-        }
-
+        event.preventDefault();
         const direction = parseInt(event.currentTarget.getAttribute('direction'), 10);
 
         this.debounce(
@@ -872,30 +716,6 @@ class EaTabs extends mixinBehaviors([IronMenubarBehavior, IronResizableBehavior]
             },
             this._debounceDelay
         );
-    }
-
-    /**
-     * Handles the click event on the dropdown
-     * @param {Object} event The event Object.
-     */
-    _toggleDropdown(event) {
-        event.stopPropagation();
-        getSlottedChildren(this).forEach(item => {
-            item.setAttribute('behavior-in-s-and-xs', 'collapse');
-        });
-        this.open = !this.open;
-        if (this.open) {
-            document.addEventListener('click', () => this._handleOutsideClick(event.target));
-        }
-    }
-
-    /**
-     * Handles the outsideclick event on the dropdown
-     * @param {Object} target The target Object.
-     */
-    _handleOutsideClick(target) {
-        this.open = false;
-        target.removeAttribute('open');
     }
 
     /**
@@ -1129,7 +949,6 @@ class EaTabs extends mixinBehaviors([IronMenubarBehavior, IronResizableBehavior]
             }
         }
 
-        this.presentTabvalue = this.items[this.selected || 0].textContent;
         return this;
     }
 
@@ -1215,6 +1034,21 @@ class EaTabs extends mixinBehaviors([IronMenubarBehavior, IronResizableBehavior]
 
         this._toggleScrolls(trackWidth > stageWidth);
         this._setScrollLeft(0);
+    }
+
+    /**
+     * Defocus the selected item. when select the tab, it will be focused.
+     * On iOS devices, the X-axis position is offset by reference to the focus position.
+     */
+    _handleFocus(focusedItem) {
+        focusedItem.blur();
+    }
+
+    /**
+     * observers getter
+     */
+    static get observers() {
+        return ['_handleFocus(focusedItem)'];
     }
 
     /**
